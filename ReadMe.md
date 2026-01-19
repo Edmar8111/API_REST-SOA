@@ -5,6 +5,8 @@
 
 [![Python Badge](https://img.shields.io/badge/-Python-22272e?style=for-the-badge&logo=python&logoColor=3776AB)](https://www.python.org/)
 [![FastAPI Badge](https://img.shields.io/badge/-FastAPI-22272e?style=for-the-badge&logo=fastapi&logoColor=009688)](https://fastapi.tiangolo.com/)
+[![SQLite Badge](https://img.shields.io/badge/-SQLite-22272e?style=for-the-badge&logo=sqlite&logoColor=003B57)](https://www.sqlite.org/)
+[![Docker Badge](https://img.shields.io/badge/-Docker-22272e?style=for-the-badge&logo=docker&logoColor=2496ED)](https://www.docker.com/)
 
 
 ## Sumário
@@ -18,3 +20,13 @@ Esse repositório aloca uma api rest com o principío de estruturação SOA.
 ## Como rodar
 A maneira indicada de se executar esse projeto é instanciando o respectivo container da aplicação. Após clonar o repo do projeto, no diretório raiz execute o comando abaixo.
 Com os arquivos baixados configurados, basta subir o container usando o docker:
+
+```bash
+docker build -t nome-do-projeto .
+```
+
+Após só efetuar a execução do server
+
+```bash
+docker -p 5000:5000 nome-do-projeto
+```
