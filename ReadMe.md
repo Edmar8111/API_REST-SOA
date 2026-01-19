@@ -14,7 +14,10 @@
 - [Como rodar](#como-rodar)
 
 ## Introdução
-Esse repositório aloca uma api rest com o principío de estruturação SOA.
+Esse repositório aloca uma api rest com o principío de estruturação SOA(Service-Oriented Architecture).
+A Arquitetura Orientada a Serviços (SOA) é um modelo arquitetural no qual o sistema é dividido em serviços independentes, cada um responsável por uma função de negócio bem definida,que se comunicam entre si por meio de interfaces padronizadas.
+
+Esses serviços não dependem da implementação interna uns dos outros, apenas do contrato de comunicação.
 
 
 ## Como rodar
