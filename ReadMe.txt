@@ -5,8 +5,6 @@
 
 [![Python Badge](https://img.shields.io/badge/-Python-22272e?style=for-the-badge&logo=python&logoColor=3776AB)](https://www.python.org/)
 [![FastAPI Badge](https://img.shields.io/badge/-FastAPI-22272e?style=for-the-badge&logo=fastapi&logoColor=009688)](https://fastapi.tiangolo.com/)
-[![SQLite Badge](https://img.shields.io/badge/-SQLite-22272e?style=for-the-badge&logo=sqlite&logoColor=003B57)](https://www.sqlite.org/)
-[![Docker Badge](https://img.shields.io/badge/-Docker-22272e?style=for-the-badge&logo=docker&logoColor=2496ED)](https://www.docker.com/)
 
 
 ## Sumário
