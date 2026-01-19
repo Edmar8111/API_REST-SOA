@@ -25,8 +25,6 @@ Com os arquivos baixados configurados, basta subir o container usando o docker:
 docker build -t nome-do-projeto .
 ```
 
-Após só efetuar a execução do server
-
 ```bash
 docker -p 5000:5000 nome-do-projeto
 ```
