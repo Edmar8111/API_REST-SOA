@@ -20,11 +20,3 @@ Esse repositório aloca uma api rest com o principío de estruturação SOA.
 ## Como rodar
 A maneira indicada de se executar esse projeto é instanciando o respectivo container da aplicação. Após clonar o repo do projeto, no diretório raiz execute o comando abaixo.
 Com os arquivos baixados configurados, basta subir o container usando o docker:
-
-```bash
-docker build -t nome-do-projeto .
-```
-
-```bash
-docker -p 5000:5000 nome-do-projeto
-```
