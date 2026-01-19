@@ -28,5 +28,5 @@ docker build -t nome-do-projeto .
 Após só efetuar a execução do server
 
 ```bash
-docker -p 5000:5000 nome-do-projeto
+docker run -p 5000:5000 nome-do-projeto
 ```
