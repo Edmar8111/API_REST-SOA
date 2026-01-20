@@ -4,6 +4,16 @@ import os
 DATABASE=os.path.abspath("event_log.db")
 
 class EventLog:
+    """
+    Docstring for EventLog
+    
+    funções:
+        _close() -> Efetua o fechamento do banco 
+        _criar_tabela() -> Instancia as tabelas no banco
+        request_get_all() -> Retorna todos os eventos do banco
+        create_event(args) -> Cria um evento no banco
+    """
+
     def __init__(self):
         self.conn = sqlite3.connect(DATABASE, timeout=3)
         print("Conexão estabelecida EVENT LOG.")
@@ -52,7 +62,6 @@ class EventLog:
             self._close()
 
     def create_event(self, *args):
-        print(f"{args=}")
         msg,kind_event=args
         try:
             self.conn.execute('INSERT INTO event_log (message,tipo_evento) VALUES (?,?)', (msg,kind_event))
@@ -63,13 +72,4 @@ class EventLog:
         finally:
             self._close()
     
-    def delete_user(self, id):
-        try:
-            self.conn.execute("DELETE FROM event_log WHERE id=?",(id,))
-            self.conn.commit()
-            return 'Data Delete'
-        except ValueError as e:
-            raise f"Erro ao deletar evento {e}"
-        finally:
-            self._close()
-
+    
