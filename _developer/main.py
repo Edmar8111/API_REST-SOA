@@ -6,6 +6,12 @@ from datetime import datetime
 from db_conn import MySQL
 from event_db import EventLog
 
+from product_repository import ProductRepository
+from procuct_service import ProductService
+
+product_service=ProductSerice()
+product_repository=ProductRepository()
+
 
 class ModelName(str, Enum):
     alexnet="alexnext"
@@ -132,5 +138,6 @@ async def delete_user(
     EventLog().create_event(msg, "outbox")
     
     return 
+
 
 
