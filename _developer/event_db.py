@@ -13,7 +13,6 @@ class EventLog:
         request_get_all() -> Retorna todos os eventos do banco
         create_event(args) -> Cria um evento no banco
     """
-
     def __init__(self):
         self.conn = sqlite3.connect(DATABASE, timeout=3)
         print("Conexão estabelecida EVENT LOG.")
