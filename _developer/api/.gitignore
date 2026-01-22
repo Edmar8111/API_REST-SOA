@@ -1,0 +1,14 @@
+.__pycache__/
+*.pyc
+env/
+venv/
+__pypackages__/
+instance/
+.pytest_cache/
+.env
+.venv
+databese.db
+event_log.db
+*.sqlite3
+.db
+.databese
