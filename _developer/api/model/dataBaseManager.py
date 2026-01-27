@@ -1,5 +1,13 @@
 import MySQLdb
 import time
+import os
+
+
+os.environ.setdefault("DB_HOST", os.getenv("DB_HOST"))
+os.environ.setdefault("DB_PORT", os.getenv("DB_PORT"))
+os.environ.setdefault("MYSQL_DATABASE", os.getenv("MYSQL_DATABASE"))
+os.environ.setdefault("MYSQL_USER", os.getenv("MYSQL_USER"))
+os.environ.setdefault("MYSQL_PASS", os.getenv("MYSQL_PASS"))
 
 
 class Database:
@@ -13,10 +21,10 @@ class Database:
 
     def __init__(
         self,
-        host: str = "localhost",
-        user: str = "app_user",
-        password: str = "app_pass",
-        database: str = "app_db",
+        host: str = os.getenv("DB_HOST"),
+        user: str = os.getenv("MYSQL_USER"),
+        password: str = os.getenv("MYSQL_PASS"),
+        database: str = os.getenv("MYSQL_DATABASE"),
         retries: int = 10,
         delay: int = 3
     ) -> None:

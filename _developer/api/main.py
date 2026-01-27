@@ -6,10 +6,11 @@ from datetime import datetime
 from db_conn import MySQL
 from event_db import EventLog
 from product_service import ProductService
-from user_service import UserService
+from user_service import UserService, UserDBManager
 
 product_service=ProductService()
 user_service=UserService()
+# user_v2_service=UserDBManager()
 
 def check_user_id(id:int):
     if id not in user_service.get_all_users():
@@ -80,8 +81,8 @@ async def delete_product(
         print("User not owner")
         return 
 
-
-@app.post("/users/create/") # Create user
+# v1
+@app.post("/users/v1/create/") # Create user
 async def create_user(
     user:User
 ):
@@ -89,6 +90,17 @@ async def create_user(
     msg=user_service.create_user(username=user_dict["username"],email=user_dict["email"])
     print(f"{msg=}")
     return msg
+
+# v2
+# @app.post("/users/v2/create") # Create User
+# async def create_user_v2(
+#     user:User
+# ):
+#     user_dict=user.model_dump()
+#     msg=user_v2_service.create_user(**user_dict)
+#     print(f"{msg=}")
+#     return msg
+
 
 @app.get("/user/{id}") # Read a user
 async def read_user(

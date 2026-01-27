@@ -1,3 +1,4 @@
+from model.dataBaseManager import Database
 from product_repository import ProductRepository
 from event_db import EventLog 
 
@@ -34,3 +35,13 @@ class ProductService:
         self.eventLog.create_event(msg, "outbox")
 
         return "Produto atualizado com sucesso!"
+    
+
+class ProductDBManager:
+    """Classe para gerenciar conexões e operações com o banco de dados MySQL."""
+
+    def __init__(self):
+        pass
+
+    def get_all_products(self):
+        return  
