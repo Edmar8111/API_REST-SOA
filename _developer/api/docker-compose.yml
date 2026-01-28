@@ -1,44 +1,124 @@
-version: '3.8'
-
 services:
   mysql:
+  # =========================
+  # SERVIÇO DO BANCO MYSQL
+  # =========================
     image: mysql:8.0
     container_name: mysql_db
     restart: always
-    env_file:
-      - .env
-    # Variáveis críticas caso o .env falhe
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASS}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./utils/set_env.sh:/opt/utils/set_env.sh:ro  
+    ports:
+      - "3306:3306"
+    
+    # =========================
+    # CONFIGURAÇÕES DO MYSQL
+    # =========================
+    
+    command:
+      [
+        "--max-connections=300",
+        "--innodb-buffer-pool-size=256M",
+        "--innodb-log-file-size=64M",
+        "--innodb-log-buffer-size=16M",
+        "--innodb-flush-log-at-trx-commit=2",
+        "--innodb-flush-method=O_DIRECT",
+        "--innodb-file-per-table=1",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+      ]
+    
+    # =========================
+    # VARIÁVEIS DE AMBIENTE
+    # =========================
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  
+    # =========================
+    # LIMITES DE RECURSOS
+    # =========================
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512MB"
+
+    # =========================
+    # RECURSOS DE MEMÓRIA E CPU
+    # =========================
+    mem_limit: 512m
+    cpus: 0.5
+
     healthcheck:
       # Adicionado -p para evitar falha de autenticação no ping
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      test:
+        [
+          "CMD-SHELL",
+          "mysql -h 127.0.0.1 -P ${DB_PORT} -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e 'SELECT 1' ${MYSQL_DATABASE} || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
-
+      start_period: 40s
+    
+    # =========================
+    # ACESSO AO HOST (DEBUG / INTEGRAÇÕES)
+    # =========================
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+
+  # =========================
+  # SERVIÇO DA APLICAÇÃO FASTAPI
+  # =========================
     image: fastapi_app:dev
     container_name: fastapi_app
+    
+    build:
+      # =========================
+      # CONSTRUÇÃO DA IMAGEM
+      # =========================
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE_DIR: 
     restart: always
+    
     depends_on:
       mysql:
         condition: service_healthy
+    
+    # =========================
+    # VARIÁVEIS DE AMBIENTE
+    # =========================
     env_file:
       - .env
-    volumes:
-      - ./app:/app
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    
+    
+    # =========================
+    # MAPEAMENTO DE PORTAS
+    # =========================
     ports:
       - "8000:8000"
+      # Efetua o mapeamento da porta 8000 do contêiner para a porta 8000 do host
     command: >
-      sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+        sh -c "
+          chmod +x utils/set_env.sh &&
+          source utils/set_env.sh &&
+          exec uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+        "
 
 volumes:
   mysql_data:

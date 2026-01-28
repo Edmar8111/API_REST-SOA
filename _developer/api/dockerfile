@@ -7,6 +7,15 @@ WORKDIR /_developer
 # Evita criação de arquivos .pyc e ativa logs imediatos
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/_developer
+ENV MYSQL_ROOT_PASSWORD=root_pass
+ENV MYSQL_DATABASE=app_db
+ENV MYSQL_USER=app_user
+ENV MYSQL_PASSWORD=app_pass
+
+ENV DB_HOST=mysql
+ENV DB_PORT=3306
+
 
 # Copia o arquivo de dependências primeiro (boa prática para cache)
 COPY requirements.txt .
@@ -19,8 +28,9 @@ default-libmysqlclient-dev \
 && rm -rf /var/lib/apt/lists/*
 
 # Instala dependências do projeto
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/pip install --no-cache-dir --upgrade pip \
+    && /opt/venv/bin/pip install --no-cache-dir --upgrade -r /_developer/requirements.txt
 
 # # Copia todo o código da aplicação para o container
 COPY . .

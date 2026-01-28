@@ -7,7 +7,7 @@ os.environ.setdefault("DB_HOST", os.getenv("DB_HOST"))
 os.environ.setdefault("DB_PORT", os.getenv("DB_PORT"))
 os.environ.setdefault("MYSQL_DATABASE", os.getenv("MYSQL_DATABASE"))
 os.environ.setdefault("MYSQL_USER", os.getenv("MYSQL_USER"))
-os.environ.setdefault("MYSQL_PASS", os.getenv("MYSQL_PASS"))
+os.environ.setdefault("MYSQL_PASSWORD", os.getenv("MYSQL_PASSWORD"))
 
 
 class Database:
@@ -23,7 +23,7 @@ class Database:
         self,
         host: str = os.getenv("DB_HOST"),
         user: str = os.getenv("MYSQL_USER"),
-        password: str = os.getenv("MYSQL_PASS"),
+        password: str = os.getenv("MYSQL_PASSWORD"),
         database: str = os.getenv("MYSQL_DATABASE"),
         retries: int = 10,
         delay: int = 3
