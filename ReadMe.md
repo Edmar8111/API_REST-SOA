@@ -25,11 +25,7 @@ A maneira indicada de se executar esse projeto é instanciando o respectivo cont
 Com os arquivos baixados configurados, basta subir o container usando o docker:
 
 ```bash
-docker build -t nome-do-projeto .
+docker compose up -d --build
 ```
 
-Após só efetuar a execução do server
-
-```bash
-docker run -p 5000:5000 nome-do-projeto
-```
+Após o container orquestrara a inicialização.
