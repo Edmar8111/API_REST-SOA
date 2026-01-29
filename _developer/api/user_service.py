@@ -1,3 +1,4 @@
+import model
 from user_repository import UserRepository
 from event_db import EventLog
 
@@ -30,3 +31,16 @@ class UserService:
         self.eventLog.create_event(msg, "outbox")
         
         return msg
+    
+class UserDBManager:
+    def __init__(self):
+        pass
+    
+    def get_all_users(self):
+        return model.ReadAll()
+    
+    def get_user_by_id(self, user_id: int):
+        return model.ReadById(user_id)
+    
+    def create_user(self, **user_data):
+        return model.CreateUser(**user_data)

@@ -72,3 +72,4 @@ class UserRepository:
         
         finally:
             self.db_client._close()
+
