@@ -1,13 +1,22 @@
-import MySQLdb
+import pymysql
+from pymysql.err import MySQLError
 import time
 import os
 
 
-os.environ.setdefault("DB_HOST", os.getenv("DB_HOST"))
-os.environ.setdefault("DB_PORT", os.getenv("DB_PORT"))
-os.environ.setdefault("MYSQL_DATABASE", os.getenv("MYSQL_DATABASE"))
-os.environ.setdefault("MYSQL_USER", os.getenv("MYSQL_USER"))
-os.environ.setdefault("MYSQL_PASSWORD", os.getenv("MYSQL_PASSWORD"))
+os.environ["DB_HOST"] = str(os.getenv("DB_HOST"))
+
+# os.environ.setdefault("DB_HOST", os.getenv("DB_HOST"))
+os.environ["DB_PORT"] = str(os.getenv("DB_PORT"))
+os.environ["MYSQL_DATABASE"] = str(os.getenv("MYSQL_DATABASE"))
+os.environ["MYSQL_USER"] = str(os.getenv("MYSQL_USER"))
+os.environ["MYSQL_PASSWORD"] = str(os.getenv("MYSQL_PASSWORD"))
+
+
+# os.environ.setdefault("DB_PORT", os.getenv("DB_PORT"))
+# os.environ.setdefault("MYSQL_DATABASE", os.getenv("MYSQL_DATABASE"))
+# os.environ.setdefault("MYSQL_USER", os.getenv("MYSQL_USER"))
+# os.environ.setdefault("MYSQL_PASSWORD", os.getenv("MYSQL_PASSWORD"))
 
 
 class Database:
@@ -26,8 +35,9 @@ class Database:
         password: str = os.getenv("MYSQL_PASSWORD") or "app_pass",
         database: str = os.getenv("MYSQL_DATABASE") or "app_db",
         retries: int = 10,
-        delay: int = 3
+        delay: int = 3,
     ) -> None:
+        print("BANCO INICIALIZADO...")
         """
         Inicializa a conexão com o banco de dados.
 
@@ -43,21 +53,21 @@ class Database:
 
         for attempt in range(retries):
             try:
-                self.connection = MySQLdb.connect(
+                self.connection = pymysql.Connection(
                     host=host,
                     user=user,
-                    passwd=password,
-                    db=database,
-                    charset="utf8mb4"
+                    password=password,
+                    database=database,
+                    charset="utf8mb4",
                 )
                 self.cursor = self.connection.cursor()
                 break
-            except MySQLdb.OperationalError:
+            except MySQLError:
                 time.sleep(delay)
 
         if not self.connection:
             raise ConnectionError("Não foi possível conectar ao MySQL.")
-        
+
     def execute(self, query: str, params: tuple = ()) -> None:
         """
         Executa uma query sem retorno (INSERT, UPDATE, DELETE).

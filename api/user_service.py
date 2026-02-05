@@ -1,4 +1,4 @@
-import model
+from model import user_repository
 from user_repository import UserRepository
 from event_db import EventLog
 
@@ -37,10 +37,10 @@ class UserDBManager:
         pass
     
     def get_all_users(self):
-        return model.ReadAll()
+        return user_repository.ReadAll()
     
     def get_user_by_id(self, user_id: int):
-        return model.ReadById(user_id)
+        return user_repository.ReadById(user_id)
     
     def create_user(self, **user_data):
-        return model.CreateUser(**user_data)
+        return user_repository.CreateUser(**user_data)
