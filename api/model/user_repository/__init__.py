@@ -1,6 +1,11 @@
-from . import user_repository
+from .. import read, create
 
 
-def user_repository():
-    return user_repository
+def ReadAll():
+    return read.get_all_users()
 
+def ReadById(user_id: int):
+    return read.get_user_by_id(user_id)
+
+def CreateUser(**user_data):
+    return create.create_user(**user_data)
