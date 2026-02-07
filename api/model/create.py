@@ -2,8 +2,9 @@
 
 from .dataBaseManager import Database
 
+
 def create_user(**user_data) -> None:
-    name,email=(user_data["name"], user_data["email"])
+    name,email=(user_data["username"], user_data["email"])
     """
     Insere um novo usuário na tabela 'users'.
 
@@ -12,7 +13,7 @@ def create_user(**user_data) -> None:
     """
     db = Database()
     try:
-        query = "INSERT INTO users (name, email) VALUES (%s, %s)"
+        query = "INSERT INTO usuario (username, email) VALUES (%s, %s)"
         db.execute(query, (name, email))
         print(f"Usuário {name} criado com sucesso.")
     finally:

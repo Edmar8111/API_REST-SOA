@@ -98,6 +98,7 @@ async def create_user_v2(
     user:User
 ):
     user_dict=user.model_dump()
+    print(f"{user_dict=}")
     msg=user_v2_service.create_user(**user_dict)
     print(f"{msg=}")
     return msg
