@@ -1,24 +1,23 @@
 import pymysql
 from pymysql.cursors import DictCursor
 from pymysql.err import MySQLError
+import pymysql.cursors
 import time
 import os
 
 
 os.environ["DB_HOST"] = str(os.getenv("DB_HOST"))
 
-# os.environ.setdefault("DB_HOST", os.getenv("DB_HOST"))
-os.environ["DB_PORT"] = str(os.getenv("DB_PORT"))
+os.environ["DB_PORT"] = os.getenv("DB_PORT")
 os.environ["MYSQL_DATABASE"] = str(os.getenv("MYSQL_DATABASE"))
 os.environ["MYSQL_USER"] = str(os.getenv("MYSQL_USER"))
 os.environ["MYSQL_PASSWORD"] = str(os.getenv("MYSQL_PASSWORD"))
 
-
+# os.environ.setdefault("DB_HOST", os.getenv("DB_HOST"))
 # os.environ.setdefault("DB_PORT", os.getenv("DB_PORT"))
 # os.environ.setdefault("MYSQL_DATABASE", os.getenv("MYSQL_DATABASE"))
 # os.environ.setdefault("MYSQL_USER", os.getenv("MYSQL_USER"))
 # os.environ.setdefault("MYSQL_PASSWORD", os.getenv("MYSQL_PASSWORD"))
-
 
 class Database:
     """
@@ -31,13 +30,21 @@ class Database:
 
     def __init__(
         self,
+<<<<<<< HEAD
         host: str = os.getenv("DB_HOST", "mysql"),
         user: str = os.getenv("MYSQL_USER") or "app_user",
         password: str = os.getenv("MYSQL_PASSWORD") or "app_pass",
         database: str = os.getenv("MYSQL_DATABASE") or "database",
         port: int = int(os.getenv("DB_PORT", "3306")),
+=======
+        host: str = os.getenv("DB_HOST") or "0.0.0.0",
+        user: str = os.getenv("MYSQL_USER") or "app_user",
+        password: str = os.getenv("MYSQL_PASSWORD") or "app_pass",
+        database: str = os.getenv("MYSQL_DATABASE") or "database",
+>>>>>>> ea1e4a041fc08449e6b3f0a7ceb0fdd05420e26f
         retries: int = 10,
         delay: int = 3,
+        port: int = 3306,
     ) -> None:
         print("BANCO INICIALIZADO...")
         """
@@ -52,29 +59,50 @@ class Database:
         """
         self.connection = None
         self.cursor = None
+<<<<<<< HEAD
         try:
             for attempt in range(retries):
                 print(f"{self.connection=}")
+=======
+
+        for retry, attempt in enumerate(range(retries)):
+            try:
+                print(f"Try -> {retry} Connection -> {self.connection}")
+                print(f"{pymysql=}")   
+>>>>>>> ea1e4a041fc08449e6b3f0a7ceb0fdd05420e26f
                 self.connection = pymysql.connect(
                     host=host,
                     user=user,
                     password=password,
                     database=database,
                     port=port,
+<<<<<<< HEAD
                     charset="utf8mb4",
                     autocommit=False,
                     cursorclass=DictCursor,
                     connect_timeout=10,
                     read_timeout=30,
                     write_timeout=30,
+=======
+                    # charset="utf8mb4",
+                    cursorclass=pymysql.cursors.DictCursor,
+                    autocommit=False,
+>>>>>>> ea1e4a041fc08449e6b3f0a7ceb0fdd05420e26f
                 )
-                self.cursor = self.connection.cursor()
+                self.cursor = self.connection.cursor()  
                 break
+<<<<<<< HEAD
                 
         except MySQLError as e:
             print(f"Error to connect database -> {e}")
             time.sleep(delay)
                 
+=======
+            except MySQLError as e:
+                print(f"Error {e}")
+                time.sleep(delay)
+                continue
+>>>>>>> ea1e4a041fc08449e6b3f0a7ceb0fdd05420e26f
 
         if not self.connection:
             raise ConnectionError("Não foi possível conectar ao MySQL.")

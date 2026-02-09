@@ -9,7 +9,10 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+<<<<<<< HEAD
       TZ: America/Cuiaba
+=======
+>>>>>>> ea1e4a041fc08449e6b3f0a7ceb0fdd05420e26f
 
     ports:
       - "3306:3306"
