@@ -9,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 ENV MYSQL_ROOT_PASSWORD=root_pass
-ENV MYSQL_DATABASE=app_db
+ENV MYSQL_DATABASE=database
 ENV MYSQL_USER=app_user
 ENV MYSQL_PASSWORD=app_pass
 
@@ -28,8 +28,12 @@ default-libmysqlclient-dev \
 && rm -rf /var/lib/apt/lists/*
 
 # Instala dependências do projeto
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+
+RUN pip install --upgrade pip; \
+    pip install --no-cache-dir -r requirements.txt
+
+# RUN pip uninstall PyMySQL; \
+#     pip install --upgrade PyMySQL
 
 # # Copia todo o código da aplicação para o container
 

@@ -44,3 +44,4 @@ class UserDBManager:
     
     def create_user(self, **user_data):
         return user_repository.CreateUser(**user_data)
+    

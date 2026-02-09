@@ -1,6 +1,9 @@
 from .. import read, create
 
-
+create, read=(
+    create.CreateModel(),
+    read.ReadModel()
+)
 def ReadAll():
     return read.get_all_users()
 

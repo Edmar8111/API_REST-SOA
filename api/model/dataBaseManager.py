@@ -1,4 +1,5 @@
 import pymysql
+from pymysql.cursors import DictCursor
 from pymysql.err import MySQLError
 import time
 import os
@@ -30,10 +31,11 @@ class Database:
 
     def __init__(
         self,
-        host: str = os.getenv("DB_HOST") or "localhost",
+        host: str = os.getenv("DB_HOST", "mysql"),
         user: str = os.getenv("MYSQL_USER") or "app_user",
         password: str = os.getenv("MYSQL_PASSWORD") or "app_pass",
-        database: str = os.getenv("MYSQL_DATABASE") or "app_db",
+        database: str = os.getenv("MYSQL_DATABASE") or "database",
+        port: int = int(os.getenv("DB_PORT", "3306")),
         retries: int = 10,
         delay: int = 3,
     ) -> None:
@@ -50,20 +52,29 @@ class Database:
         """
         self.connection = None
         self.cursor = None
-
-        for attempt in range(retries):
-            try:
-                self.connection = pymysql.Connection(
+        try:
+            for attempt in range(retries):
+                print(f"{self.connection=}")
+                self.connection = pymysql.connect(
                     host=host,
                     user=user,
                     password=password,
                     database=database,
+                    port=port,
                     charset="utf8mb4",
+                    autocommit=False,
+                    cursorclass=DictCursor,
+                    connect_timeout=10,
+                    read_timeout=30,
+                    write_timeout=30,
                 )
                 self.cursor = self.connection.cursor()
                 break
-            except MySQLError:
-                time.sleep(delay)
+                
+        except MySQLError as e:
+            print(f"Error to connect database -> {e}")
+            time.sleep(delay)
+                
 
         if not self.connection:
             raise ConnectionError("Não foi possível conectar ao MySQL.")
@@ -106,5 +117,6 @@ class Database:
         """
         if self.cursor:
             self.cursor.close()
+
         if self.connection:
             self.connection.close()
