@@ -1,14 +1,25 @@
-from .. import read, create
+from .. import create, read, update, delete
 
-create, read=(
-    create.CreateModel(),
-    read.ReadModel()
-)
+
+create=create.CreateModel()
+    
 def ReadAll():
     return read.get_all_users()
 
-def ReadById(user_id: int):
-    return read.get_user_by_id(user_id)
+def ReadById(id: int):
+    return read.ReadModel(id).get_user_by_id()
 
 def CreateUser(**user_data):
-    return create.create_user(**user_data)
+    username, email=(
+        user_data['username'],
+        user_data['email']
+    )
+    return create.create_user(username=username, email=email)
+
+def UpdateUser(**update_data):
+    id, username, email=(
+        update_data['id'], 
+        update_data['username'],
+        update_data['email']
+    )
+    return update.UpdateUserModel(id=id,username=username,email=email)

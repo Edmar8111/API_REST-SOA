@@ -1,14 +1,16 @@
-from .. import read, create
+from .. import create, read, update, delete 
+from typing import Optional, Dict
 
-create=create.CreateModel()
+create=create.CreateModel(),    
 
 def ReadAll():
-    return read.get_all_products()
+    return read.ReadModel().get_all_products()
 
-
-def ReadById(product_id: int):
-    return read.get_product_by_id(product_id)
-
+def ReadById(id: Optional[int|None]):
+    return read.ReadModel(id).get_product_by_id()
 
 def CreateProduct(**product_data):
     return create.create_product(**product_data)
+
+def DeleteProduct(id:Optional[int|None]):
+    return delete.DeleteModel(id).delete_product()

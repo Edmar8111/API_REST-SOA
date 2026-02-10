@@ -38,6 +38,8 @@ RUN pip install --upgrade pip; \
 # # Copia todo o código da aplicação para o container
 
 COPY . .
+
+
 # Expõe a porta padrão do Uvicorn
 # EXPOSE 8000
 

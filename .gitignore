@@ -1,16 +1,13 @@
 __pycache__
 .__pycache__
-<<<<<<< HEAD
 
 .db-shm
 .db-wal
-=======
-.db-wal
-.db-shm
->>>>>>> ea1e4a041fc08449e6b3f0a7ceb0fdd05420e26f
 .venv
 .env
 .evenv
 database.db
 event_log.db
 .db
+api/database.db-shm
+api/database.db-wal

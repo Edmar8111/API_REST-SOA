@@ -1,6 +1,7 @@
 from model import user_repository
 from user_repository import UserRepository
 from event_db import EventLog
+from typing import Optional, Dict
 
 class UserService:
     def __init__(self):
@@ -42,6 +43,9 @@ class UserDBManager:
     def get_user_by_id(self, user_id: int):
         return user_repository.ReadById(user_id)
     
-    def create_user(self, **user_data):
-        return user_repository.CreateUser(**user_data)
+    def create_user(self, user_data:Optional[Dict|None]):
+        return user_repository.CreateUser(username=user_data['username'], email=user_data['email'])
+    
+    def update_user(self, update_data:Optional[Dict|None]):
+        return user_repository.UpdateUser(id=update_data['id'], username=update_data['username'], email=update_data['email']) 
     

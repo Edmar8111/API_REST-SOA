@@ -1,7 +1,7 @@
 from model import product_repository
 from product_repository import ProductRepository
 from event_db import EventLog
-
+from typing import Optional, Dict
 
 class ProductService:
     def __init__(self):
@@ -45,5 +45,23 @@ class ProductDBManager:
     def __init__(self):
         pass
 
-    def create_product(**product_data):
-        return product_repository.CreateProduct(**product_data)
+    def create_product(product_data:Optional[Dict|None]):
+        return product_repository.CreateProduct(
+                user_id=product_data['user_id'], 
+                produto=product_data['produto'],
+                quantidade=product_data['quantidade'],
+                valor=product_data['valor'],
+                peso=product_data['peso']
+               )
+
+    def read_all_products(self):
+        return product_repository.ReadAll()
+    
+    def read_product(id:Optional[int|None]):
+        return product_repository.ReadById(id=id)
+    
+    def update_product(self):
+        pass
+        
+    def delete_product(self, id:Optional[int|None]):
+        return product_repository.DeleteProduct(id)
