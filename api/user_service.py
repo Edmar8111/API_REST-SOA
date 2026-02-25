@@ -48,4 +48,25 @@ class UserDBManager:
     
     def update_user(self, update_data:Optional[Dict|None]):
         return user_repository.UpdateUser(id=update_data['id'], username=update_data['username'], email=update_data['email']) 
+
+
+
+from api.model.crud import Read
+
+
+class ServiceReadV2(Read):
+    def __init__(self, id:int|None=None):
+        super().__init__(id)
+
+    def get_all_user(self):
+        return super().get_all_user()
+    
+    def get_user_by_id(self):
+        return super().get_user_by_id()
+    
+    def get_all_products(self):
+        return super().get_all_products()
+    
+    def get_product_by_id(self):
+        return super().get_product_by_id()
     

@@ -31,7 +31,6 @@ class ReadModel:
         
         :return: Tupla com dados do usuário ou None.
         """
-        db = Database()
         try:
             query = "SELECT id, username, email FROM usuario WHERE id = %s"
             return self.db.fetch_one(query, (self.id,))
@@ -65,3 +64,5 @@ class ReadModel:
         finally:
             pass
             # db.close()
+
+
