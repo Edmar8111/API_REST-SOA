@@ -51,8 +51,17 @@ class UserDBManager:
 
 
 
-from api.model.crud import Read
+from model.crud import Read, Create
 
+class ServiceCreateV2(Create):
+    def __init__(self, **data):
+        super().__init__(**data)
+
+    def create_user(self):
+        return super().create_user()
+    
+    def create_product(self):
+        return super().create_product()
 
 class ServiceReadV2(Read):
     def __init__(self, id:int|None=None):
@@ -69,4 +78,5 @@ class ServiceReadV2(Read):
     
     def get_product_by_id(self):
         return super().get_product_by_id()
+
     

@@ -6,7 +6,7 @@ from datetime import datetime
 from db_conn import MySQL
 from event_db import EventLog
 from product_service import ProductService, ProductDBManager
-from user_service import UserService, UserDBManager, ServiceReadV2
+from user_service import (UserService, UserDBManager,ServiceCreateV2, ServiceReadV2)
 from decimal import Decimal
 
 product_service = ProductService()
@@ -166,6 +166,13 @@ async def create_user_v2(user: User):
     print(f"{msg=}")
     return msg, 202
 
+# versão via super()
+@app.post("/create/users/v3")
+async def create_user_v3(user:User):
+    user_dict = user.model_dump()
+    create_user = ServiceCreateV2(**user_dict).create_user
+    return f"Usuario {user_dict['username']} criado!"
+
 #v1
 @app.get("/read/user/v1/{id}")  # Read a user 
 async def read_user(id: int):
@@ -182,9 +189,8 @@ async def read_user(id: int):
 # versão via super()
 @app.get("/read/user/v3/{id}")
 async def read_user(id:int|None=None):
-    user=ServiceReadV2(id)
-    print(user.get_user_by_id())
-    return ""
+    user=ServiceReadV2(id).get_user_by_id
+    return f"{user}"
 
 # v1
 @app.put("/update/user/v1/{id}/")  # Update user

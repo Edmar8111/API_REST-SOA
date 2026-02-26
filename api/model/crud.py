@@ -6,6 +6,7 @@ class Create(ABC):
     def __init__(self, **data):
         self.db=Database()
         self.data=data
+        print(f"{data=}")
         
     @abstractmethod
     def create_user(self):
@@ -15,7 +16,14 @@ class Create(ABC):
             self.db.commit()
         finally:
             pass
-
+    
+    @abstractmethod
+    def create_product(self):
+        try:
+            query = "INSERT INTO (user_id, produto, quantidade, valor, peso) VALUES (%s, %s, %s, %s, %s)"
+            self.db.execute(query, (self.data['user_id'], self.data['produto'], self.data['quantidade'], self.data['valor'], self.data['peso']))
+        finally:
+            pass
 
 class Read(ABC):
     
@@ -55,3 +63,29 @@ class Read(ABC):
             return self.db.fetch_one(query, (self.id,))
         finally:
             pass
+        
+class Update(ABC):
+    pass
+
+class Delete(ABC):
+    def __init__(self, id:int|None=None):
+        self.db=Database()
+        self.id=id
+    
+    @abstractmethod
+    def delete_user(self):
+        try:
+            query = "DELETE FROM usuario WHERE id = %s"
+            self.db.execute(query, (self.id,))
+        finally:
+            pass
+    
+    @abstractmethod
+    def delete_product(self):
+        try:
+            query = "DELETE FROM produto WHERE id = %s"
+            self.db.execute(query, (self.id,))
+        finally:
+            pass
+        
+        
